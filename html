@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>永远的拉拉 - 纪念</title>
+    <style>
+        :root {
+            /* 提取图片中的暖棕色调作为背景 */
+            --bg-color: #2c241b; 
+            --text-color: #e6dcc3;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            /* 增加一点光影质感 */
+            background-image: radial-gradient(circle at center top, #4a3b30 0%, #2c241b 80%);
+            color: var(--text-color);
+            font-family: "Songti SC", "SimSun", "Georgia", serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* 主图容器 */
+        .memorial-card {
+            margin-top: 20px;
+            position: relative;
+            width: 90%;
+            max-width: 1000px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.7);
+            border: 8px solid #3e3025; /* 相框边框 */
+            border-radius: 4px;
+            animation: fadeIn 2s ease-in;
+        }
+
+        .memorial-card img {
+            width: 100%;
+            height: auto;
+            display: block;
+            /* 稍微加一点亮度，让它在网页上更通透 */
+            filter: brightness(1.05);
+        }
+
+        /* 底部装饰区域 */
+        .tribute-section {
+            margin-top: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            animation: slideUp 2s ease-out;
+            margin-bottom: 40px;
+        }
+
+        .candles {
+            display: flex;
+            gap: 80px;
+            margin-bottom: 25px;
+        }
+
+        /* 动态蜡烛 */
+        .candle {
+            width: 20px;
+            height: 70px;
+            background: linear-gradient(#fffdf5, #e0d0b0);
+            border-radius: 3px;
+            position: relative;
+            box-shadow: 0 0 15px rgba(0,0,0,0.5);
+        }
+
+        .flame {
+            width: 10px;
+            height: 25px;
+            background: radial-gradient(ellipse at bottom, #ffffcc, #ffaa00);
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            box-shadow: 0 0 20px rgba(255, 170, 0, 0.8);
+            animation: flicker 1.5s infinite alternate ease-in-out;
+        }
+
+        .message {
+            font-size: 1.2rem;
+            color: rgba(230, 220, 195, 0.8);
+            font-style: italic;
+            letter-spacing: 2px;
+            text-align: center;
+        }
+
+        /* 音乐提示 */
+        .music-hint {
+            margin-top: 15px;
+            font-size: 0.8rem;
+            color: #665544;
+            cursor: pointer;
+        }
+
+        @keyframes flicker {
+            0% { transform: translateX(-50%) scale(1); opacity: 0.85; }
+            100% { transform: translateX(-50%) scale(1.2); opacity: 1; box-shadow: 0 0 30px rgba(255, 170, 0, 1); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.98); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="memorial-card">
+        <img src="Gemini_Generated_Image_rxe1oirxe1oirxe1.jpg" alt="永远的拉拉">
+    </div>
+
+    <div class="tribute-section">
+        <div class="candles">
+            <div class="candle"><div class="flame"></div></div>
+            <div class="candle"><div class="flame"></div></div>
+        </div>
+
+        <p class="message">
+            思念化作烛光，照亮你回家的路。
+        </p>
+
+        <audio id="bgMusic" loop autoplay>
+            <source src="music.mp3" type="audio/mpeg">
+        </audio>
+        <div class="music-hint" id="playHint">🎵 背景音乐已开启 (如未播放请点击屏幕)</div>
+    </div>
+
+    <script>
+        // 自动播放逻辑处理
+        const audio = document.getElementById('bgMusic');
+        const hint = document.getElementById('playHint');
+
+        // 尝试自动播放
+        let playPromise = audio.play();
+
+        if (playPromise !== undefined) {
+            playPromise.then(_ => {
+                // 自动播放成功
+                console.log("Autoplay started");
+            })
+            .catch(error => {
+                // 自动播放被拦截
+                console.log("Autoplay blocked, waiting for interaction");
+                hint.innerText = "🎵 点击屏幕任意位置播放音乐";
+                hint.style.color = "#d4af37"; //以此提示用户
+                
+                // 监听一次全屏点击事件来触发播放
+                document.body.addEventListener('click', function() {
+                    audio.play();
+                    hint.innerText = "🎵 正在播放";
+                    hint.style.color = "#665544";
+                }, { once: true });
+            });
+        }
+    </script>
+</body>
+</html>
