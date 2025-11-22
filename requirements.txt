@@ -1,0 +1,5 @@
+transformers==4.38.2
+# Use CPU version of torch to keep image size manageable for this example.
+# If using GPUs, remove the --index-url part.
+torch==2.2.1 --index-url https://download.pytorch.org/whl/cpu
+gradio==4.19.2
